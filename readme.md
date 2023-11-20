@@ -34,6 +34,10 @@ There can be many ways to solve this problem like using dynamic programming,
 I chose to solve this problem, with fast as well as keeping in mind of lightweight solution. 
 With this intention, I decided to use the mixture of Heap (PriorityQueue) of java and Map I created in this customized data structures into a class name KnapSackQueue which is a class that collects and sort products keeping in mind of knapsack algorithm.
 
+#### Entry point
+call static method pack(fileName) with reference to Packer class
+`Packer.pack("some_file_name")`
+
 #### Build And Test
 - mvn clean install
 - mvn clean test

@@ -16,6 +16,13 @@ public class FileParserService {
 
     private static final Logger logger = LogManager.getLogger(FileParserService.class);
 
+    /**
+     * Takes fileItems from the given File and process it to return list of Package Objects
+     * ie: items in format 81 :((2,14.55,€74))
+     * @param fileItems
+     * @return list of Package object
+     * @throws APIException
+     */
     public static List<Package> parseFile(List<String> fileItems) throws APIException {
         if (null == fileItems || fileItems.isEmpty()) {
             logger.error("No data present in file");

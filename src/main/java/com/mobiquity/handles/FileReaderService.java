@@ -11,6 +11,12 @@ import java.util.List;
 public class FileReaderService {
     private static final Logger logger = LogManager.getLogger(FileReaderService.class);
 
+    /**
+     * Reads a file from given path and return list of items
+     * @param filePath absolute path
+     * @return List of String having items
+     * @throws FileNotFoundException
+     */
     public static List<String> readFile(String filePath) throws FileNotFoundException {
         if (null == filePath || filePath.isBlank()) {
             logger.error("File path is either empty or null");

@@ -29,10 +29,12 @@ Output: String as mentioned in  path `src/main/test/resources`
 file data is empty or invalid, the API call throws FileNotFound Exception
 If anything else goes wrong, the API call throws APIException
 
-#### Data Structure
-There can be many ways to solve this problem like using dynamic programming,
-I chose to solve this problem, with fast as well as keeping in mind of lightweight solution. 
-With this intention, I decided to use the mixture of Heap (PriorityQueue) of java and Map I created in this customized data structures into a class name KnapSackQueue which is a class that collects and sort products keeping in mind of knapsack algorithm.
+#### Data Structure & Implementation Details
+There can be many ways to solve this problem like using dynamic programming and priority queue.
+I chose to solve this problem by priority queue keeping in mind of lightweight solution. 
+I am using the mix of Heap (PriorityQueue) of java and Map I created in this customized data structures into a class name KnapSackQueue,
+which is a class that collects and sort products keeping in mind of knapsack algorithm.
+Since this problem can be solved in multiple ways, I created an interface KnapSack which can have multiple implementations. 
 
 #### Entry point
 call static method pack(fileName) with reference to Packer class

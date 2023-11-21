@@ -1,9 +1,9 @@
 package com.mobiquity.packer;
 
 import com.mobiquity.exception.APIException;
-import com.mobiquity.handles.FileParserService;
-import com.mobiquity.handles.FileReaderService;
-import com.mobiquity.handles.WeightCalculationService;
+import com.mobiquity.util.InputParser;
+import com.mobiquity.util.FileUtil;
+import com.mobiquity.service.WeightCalculationService;
 import com.mobiquity.entity.Package;
 
 import java.io.FileNotFoundException;
@@ -23,8 +23,8 @@ public class Packer {
    */
   public static String pack(String filePath) throws APIException, FileNotFoundException {
 
-    List<Package> packages = FileParserService.parseFile(
-            FileReaderService.readFile(filePath));
+    List<Package> packages = InputParser.parseFile(
+            FileUtil.readFile(filePath));
 
     return WeightCalculationService.selectItemsWithWeightConstraint(packages);
   }

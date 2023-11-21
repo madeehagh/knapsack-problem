@@ -1,4 +1,4 @@
-package com.mobiquity.processing;
+package com.mobiquity.knapsack;
 
 import com.mobiquity.entity.Item;
 import com.mobiquity.entity.ItemsSelected;
@@ -8,16 +8,29 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.concurrent.locks.StampedLock;
 import java.util.stream.Collectors;
 
 
-public class KnapSackQueue {
+/**
+ * abstract-> Queue
+ *  ->
+ *  0 1 2 3 4 5
+ * 0 0
+ * 1 1
+ * 2 1 2
+ * 3
+ *
+ */
+public class KnapSackQueueImpl implements KnapSack {
 
-    private static final Logger logger = LogManager.getLogger(KnapSackQueue.class);
-    private final StampedLock stampedLock = new StampedLock();
-    private final Map<Package, Queue<Item>> packageMaxHeap = new LinkedHashMap<>();
-    private final List<ItemsSelected> itemsSelected = new ArrayList<>();
+    private static final Logger logger = LogManager.getLogger(KnapSackQueueImpl.class);
+    private Map<Package, Queue<Item>> packageMaxHeap;
+    private  List<ItemsSelected> itemsSelected;
+
+    public KnapSackQueueImpl() {
+        itemsSelected = new LinkedList<>();
+        packageMaxHeap = new LinkedHashMap<>();
+    }
 
     /**
      *  This method formats output, which is list of selected items in a string format.
@@ -34,32 +47,22 @@ public class KnapSackQueue {
      * @param packages (List)
      * @return
      */
-    public KnapSackQueue init(List<Package> packages) {
-        long writeLock = stampedLock.writeLock();
+    @Override
+    public void init(List<Package> packages) {
         packages.forEach(pack -> {
             packageMaxHeap.put(pack, sortItemsOnPriceAndWeight());
             packageMaxHeap.get(pack).addAll(pack.getPackageItems());
         });
-   
-        stampedLock.unlockWrite(writeLock);
-       
-        return getInstance();
     }
 
     /**
      * This method select all items from sorted List of Items, such that their total weight capacity do not exceed given weight limit in file
      * @return list of items satisfying the constraint
      */
-    public KnapSackQueue getSelectedItems() {
-        long writeLock = stampedLock.writeLock();
-        try {
-            Set<Package> packageKeys = packageMaxHeap.keySet();
-            packageKeys.forEach(key -> itemsSelected.add(new ItemsSelected(key.getID(), getItems(key))));
-        } finally {
-            logger.debug("releasing lock");
-            stampedLock.unlockWrite(writeLock);
-        }
-        return getInstance();
+    @Override
+    public void collectSelectedItems() {
+        Set<Package> packageKeys = packageMaxHeap.keySet();
+        packageKeys.forEach(key -> itemsSelected.add(new ItemsSelected(key.getID(), getItems(key))));
     }
 
     private List<Item> getItems(Package key) {
@@ -77,22 +80,10 @@ public class KnapSackQueue {
         return items;
     }
 
-    public void clear(){
-        long writeLock = stampedLock.writeLock();
-        packageMaxHeap.clear();
-        itemsSelected.clear();
-        stampedLock.unlockWrite(writeLock);
-    }
-
     private String selectedItemsAsString() {
-        long readLock = stampedLock.readLock();
-        try {
-            return itemsSelected.stream()
+     return itemsSelected.stream()
                     .map(ItemsSelected::toString)
                     .collect(Collectors.joining(PatternConstants.END_OF_LINE));
-        } finally {
-            stampedLock.unlockRead(readLock);
-        }
     }
 
     /**
@@ -108,17 +99,4 @@ public class KnapSackQueue {
                     costComparison > 0 ? 1 : -1;
         });
     }
-
-    private static class InstanceHolder {
-        private static final KnapSackQueue knapSackQueueInstance = new KnapSackQueue();
-
-        private InstanceHolder() {}
-    }
-
-    public static KnapSackQueue getInstance() {
-        return KnapSackQueue.InstanceHolder.knapSackQueueInstance;
-    }
-
-    private KnapSackQueue() {}
-
 }

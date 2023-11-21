@@ -1,4 +1,4 @@
-package com.mobiquity.handles;
+package com.mobiquity.util;
 
 import com.mobiquity.exception.FileParserException;
 import org.apache.logging.log4j.LogManager;
@@ -8,8 +8,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileReaderService {
-    private static final Logger logger = LogManager.getLogger(FileReaderService.class);
+public class FileUtil {
+    private static final Logger logger = LogManager.getLogger(FileUtil.class);
 
     /**
      * Reads a file from given path and return list of items
@@ -26,7 +26,7 @@ public class FileReaderService {
         List<String> results = new ArrayList<>();
         try {
         File file = new File(filePath);
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(file));
             String line;
             while((line = bufferedReader.readLine()) != null) {
                 results.add(line);

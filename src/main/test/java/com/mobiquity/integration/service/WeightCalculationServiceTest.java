@@ -1,7 +1,7 @@
 package com.mobiquity.integration.service;
 
 import com.mobiquity.exception.APIException;
-import com.mobiquity.handles.WeightCalculationService;
+import com.mobiquity.service.WeightCalculationService;
 import com.mobiquity.input.TestInput;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

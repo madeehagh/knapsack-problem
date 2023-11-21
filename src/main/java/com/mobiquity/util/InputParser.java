@@ -1,4 +1,4 @@
-package com.mobiquity.handles;
+package com.mobiquity.util;
 
 
 import com.mobiquity.entity.Item;
@@ -12,9 +12,9 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileParserService {
+public class InputParser {
 
-    private static final Logger logger = LogManager.getLogger(FileParserService.class);
+    private static final Logger logger = LogManager.getLogger(InputParser.class);
 
     /**
      * Takes fileItems from the given File and process it to return list of Package Objects
@@ -28,12 +28,12 @@ public class FileParserService {
             logger.error("No data present in file");
             throw new APIException("No data present in file");
         }
-        List<Package> list = new ArrayList<>();
+        List<Package> packagesList = new ArrayList<>();
         for (String fileItem : fileItems) {
             Package packageItem = getPackageItem(fileItem);
-            list.add(packageItem);
+            packagesList.add(packageItem);
         }
-        return list;
+        return packagesList;
     }
 
     private static Package getPackageItem(String items) throws APIException {

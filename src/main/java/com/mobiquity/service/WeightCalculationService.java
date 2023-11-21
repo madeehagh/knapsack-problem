@@ -1,8 +1,8 @@
-package com.mobiquity.handles;
+package com.mobiquity.service;
 
 
 import com.mobiquity.exception.APIException;
-import com.mobiquity.processing.KnapSackQueue;
+import com.mobiquity.knapsack.KnapSackQueueImpl;
 import com.mobiquity.entity.Package;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,17 +13,15 @@ import java.util.List;
 public class WeightCalculationService {
 
     private static final Logger logger = LogManager.getLogger(WeightCalculationService.class);
-    private static final KnapSackQueue knapSackQueue = KnapSackQueue.getInstance();
 
     public static String selectItemsWithWeightConstraint(List<Package> packages) throws APIException {
-        knapSackQueue.clear();
+        KnapSackQueueImpl knapSackQueueImpl = new KnapSackQueueImpl();
         if (null == packages || packages.isEmpty()) {
             logger.error("Packages does not have any item(s)");
            throw new APIException("Packages does not have any item(s)");
         }
-
-       knapSackQueue.init(packages);
-       knapSackQueue.getSelectedItems();
-       return knapSackQueue.toString();
+       knapSackQueueImpl.init(packages);
+       knapSackQueueImpl.collectSelectedItems();
+       return knapSackQueueImpl.toString();
     }
 }

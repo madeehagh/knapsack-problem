@@ -10,17 +10,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-/**
- * abstract-> Queue
- *  ->
- *  0 1 2 3 4 5
- * 0 0
- * 1 1
- * 2 1 2
- * 3
- *
- */
 public class KnapSackQueueImpl implements KnapSack {
 
     private static final Logger logger = LogManager.getLogger(KnapSackQueueImpl.class);

@@ -52,11 +52,8 @@ public class KnapSackQueueImpl implements KnapSack {
     @Override
     public void collectSelectedItems() {
         packageMaxHeap.forEach((pack, itemQueue) ->
-                itemsSelected.add(new ItemsSelected(pack.getID(), getItems(pack))));
-
-        /*Set<Package> packageKeys = packageMaxHeap.keySet();
-        packageKeys.forEach(key -> itemsSelected.add(new ItemsSelected(key.getID(), getItems(key))));
-*/    }
+                itemsSelected.add(new ItemsSelected(pack.getPackageId(), getItems(pack))));
+    }
 
     private List<Item> getItems(Package key) {
         double weightLimit = key.getWeightLimit();
@@ -86,11 +83,8 @@ public class KnapSackQueueImpl implements KnapSack {
      * @return a priority queue of sorted items
      */
     private Queue<Item> sortItemsOnPriceAndWeight() {
-        return new PriorityQueue<>((p1, p2) -> {
-            int costComparison = Double.compare(p2.getPrice(), p1.getPrice());
-            return (costComparison == 0) ?
-                    Double.compare(p1.getWeight(), p2.getWeight()) :
-                    costComparison > 0 ? 1 : -1;
-        });
+        return new PriorityQueue<>(Comparator.comparing(Item::getPrice)
+                .reversed()
+                .thenComparing(Item::getWeight));
     }
 }

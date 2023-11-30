@@ -1,6 +1,7 @@
 package com.mobiquity.packer;
 
 import com.mobiquity.exception.APIException;
+import com.mobiquity.exception.ProcessingException;
 import com.mobiquity.util.InputParser;
 import com.mobiquity.util.FileUtil;
 import com.mobiquity.service.WeightCalculationService;
@@ -21,7 +22,7 @@ public class Packer {
    * @throws APIException  if there is an API-related exception
    * @throws FileNotFoundException if the file is not found
    */
-  public static String pack(String filePath) throws APIException, FileNotFoundException {
+  public static String pack(String filePath) throws APIException, FileNotFoundException, ProcessingException {
     try {
       List<Package> packages = InputParser.parseFile(
               FileUtil.readFile(filePath));
@@ -30,6 +31,8 @@ public class Packer {
       throw new FileNotFoundException(fe.getMessage());
     } catch (APIException apiException) {
       throw new APIException(apiException.getMessage());
+    } catch (ProcessingException e) {
+      throw new ProcessingException(e.getMessage());
     }
   }
 }

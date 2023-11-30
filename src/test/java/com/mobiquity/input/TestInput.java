@@ -1,4 +1,4 @@
-package com.mobiquity.input;
+package input;
 
 import com.mobiquity.entity.Item;
 import com.mobiquity.entity.Package;
@@ -8,7 +8,8 @@ import java.util.List;
 
 public final class TestInput {
 
-    private TestInput(){}
+    private TestInput() {
+    }
 
     public static String expectedInputFileResult() {
         return "4\n-\n2,7\n8,9";
@@ -41,7 +42,7 @@ public final class TestInput {
                         new Item(3, 78.48, 3),
                         new Item(4, 72.30, 76),
                         new Item(5, 30.18, 9),
-                        new Item(6,46.34,48))));
+                        new Item(6, 46.34, 48))));
     }
 
     public static List<Package> pkgWithWtItemsMoreThanCapacity() {

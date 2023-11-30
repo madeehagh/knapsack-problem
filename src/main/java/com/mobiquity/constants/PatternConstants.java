@@ -1,9 +1,7 @@
 package com.mobiquity.constants;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
 public class PatternConstants {
+    private PatternConstants(){}
     public static final String WEIGHT_SPLIT_DELIMITER = ":";
     public static final String ITEMS_SPLIT_DELIMITER = ",";
     public static final String ITEMS_SPLIT_PATTERN = "[()]";

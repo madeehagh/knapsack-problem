@@ -15,6 +15,7 @@ import java.util.List;
 
 public class InputParser {
 
+    private InputParser(){}
     private static final Logger logger = LogManager.getLogger(InputParser.class);
 
     /**

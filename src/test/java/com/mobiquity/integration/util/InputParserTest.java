@@ -1,10 +1,10 @@
-package com.mobiquity.integration.service;
+package com.mobiquity.integration.util;
 
 import com.mobiquity.entity.Package;
 import com.mobiquity.exception.APIException;
 import com.mobiquity.exception.FileParserException;
 import com.mobiquity.util.InputParser;
-import com.mobiquity.input.TestInput;
+import input.TestInput;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,28 +43,28 @@ public class InputParserTest {
 
     @Test
     @DisplayName("Invalid Weight in input package should throw FileParser Exception")
-    public void testInvalidWeightInInputPkgs() {
+     void testInvalidWeightInInputPkgs() {
         Assertions.assertThrows(FileParserException.class, () ->
                 InputParser.parseFile(TestInput.givenPackageWithInvalidWeight()));
     }
 
     @Test
     @DisplayName("Invalid Price in input package should throw FileParser Exception")
-    public void testInvalidPriceInInputPkgs() {
+     void testInvalidPriceInInputPkgs() {
         Assertions.assertThrows(FileParserException.class, () ->
                 InputParser.parseFile(TestInput.givenPackageWithInvalidPrice()));
     }
 
     @Test
     @DisplayName("Invalid Cost in input package should throw FileParser Exception")
-    public void testInvalidCostInInputPkgs() {
+     void testInvalidCostInInputPkgs() {
         Assertions.assertThrows(FileParserException.class, () ->
                 InputParser.parseFile(TestInput.givenPackageWithInvalidPrice()));
     }
 
     @Test
     @DisplayName("Invalid attributes in input package should throw API Exception")
-    public void testInvalidAttributesInInputPkgs() {
+     void testInvalidAttributesInInputPkgs() {
         Assertions.assertThrows(APIException.class, () ->
                 InputParser.parseFile(TestInput.givenPackageWithInvalidItemAttr()));
     }

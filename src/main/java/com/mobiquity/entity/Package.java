@@ -6,14 +6,13 @@ import lombok.ToString;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @ToString
 public class Package {
 
     @Getter
-    private final String ID = UUID.randomUUID().toString();
+    private final String packageId = UUID.randomUUID().toString();
 
     @Getter
     private final double weightLimit;
@@ -27,6 +26,6 @@ public class Package {
                 .map(packageItem -> new Item(packageItem.getIndex(),
                         packageItem.getWeight(),
                         packageItem.getPrice()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

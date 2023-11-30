@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 public class KnapSackQueueImpl implements KnapSack {
@@ -15,10 +17,13 @@ public class KnapSackQueueImpl implements KnapSack {
     private static final Logger logger = LogManager.getLogger(KnapSackQueueImpl.class);
     private final Map<Package, Queue<Item>> packageMaxHeap;
     private  final List<ItemsSelected> itemsSelected;
+    private final Lock lock;
+
 
     public KnapSackQueueImpl() {
         itemsSelected = new LinkedList<>();
         packageMaxHeap = new LinkedHashMap<>();
+        lock = new ReentrantLock();
     }
 
     /**
@@ -51,14 +56,20 @@ public class KnapSackQueueImpl implements KnapSack {
      */
     @Override
     public void collectSelectedItems() {
-        packageMaxHeap.forEach((pack, itemQueue) ->
-                itemsSelected.add(new ItemsSelected(pack.getPackageId(), getItems(pack))));
+        packageMaxHeap.forEach((pack, itemQueue) -> {
+            lock.lock();
+            try {
+                itemsSelected.add(new ItemsSelected(pack.getPackageId(), getItems(pack)));
+            } finally {
+                lock.unlock();
+            }
+        });
     }
 
     private List<Item> getItems(Package key) {
         double weightLimit = key.getWeightLimit();
         List<Item> items = new ArrayList<>();
-        Queue<Item> itemQueue = packageMaxHeap.get(key);
+        Queue<Item> itemQueue = this.packageMaxHeap.get(key);
 
         while (!itemQueue.isEmpty() && weightLimit > 0) {
             Item item = itemQueue.poll();
@@ -71,7 +82,7 @@ public class KnapSackQueueImpl implements KnapSack {
     }
 
     private String selectedItemsAsString() {
-     return itemsSelected.stream()
+     return this.itemsSelected.stream()
                     .map(ItemsSelected::toString)
                     .collect(Collectors.joining(PatternConstants.END_OF_LINE));
     }

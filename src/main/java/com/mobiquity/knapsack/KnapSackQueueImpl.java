@@ -3,7 +3,7 @@ package com.mobiquity.knapsack;
 import com.mobiquity.entity.Item;
 import com.mobiquity.entity.ItemsSelected;
 import com.mobiquity.entity.Package;
-import com.mobiquity.helper.PatternConstants;
+import com.mobiquity.constants.PatternConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 public class KnapSackQueueImpl implements KnapSack {
 
     private static final Logger logger = LogManager.getLogger(KnapSackQueueImpl.class);
-    private Map<Package, Queue<Item>> packageMaxHeap;
-    private  List<ItemsSelected> itemsSelected;
+    private final Map<Package, Queue<Item>> packageMaxHeap;
+    private  final List<ItemsSelected> itemsSelected;
 
     public KnapSackQueueImpl() {
         itemsSelected = new LinkedList<>();
@@ -33,7 +33,7 @@ public class KnapSackQueueImpl implements KnapSack {
 
     /**
      * This method takes all packages and sort items based on price and weight
-     * @param packages (List)
+     * @param packages packages a list of packages
      * @return
      */
     @Override
@@ -45,14 +45,18 @@ public class KnapSackQueueImpl implements KnapSack {
     }
 
     /**
-     * This method select all items from sorted List of Items, such that their total weight capacity do not exceed given weight limit in file
+     * This method collects the selected items from each package
+     * based on the weight constraint.
      * @return list of items satisfying the constraint
      */
     @Override
     public void collectSelectedItems() {
-        Set<Package> packageKeys = packageMaxHeap.keySet();
+        packageMaxHeap.forEach((pack, itemQueue) ->
+                itemsSelected.add(new ItemsSelected(pack.getID(), getItems(pack))));
+
+        /*Set<Package> packageKeys = packageMaxHeap.keySet();
         packageKeys.forEach(key -> itemsSelected.add(new ItemsSelected(key.getID(), getItems(key))));
-    }
+*/    }
 
     private List<Item> getItems(Package key) {
         double weightLimit = key.getWeightLimit();
@@ -76,9 +80,10 @@ public class KnapSackQueueImpl implements KnapSack {
     }
 
     /**
-     * This heap sorts items based on price (decreasing order) and then on weight (increasing order),
-     * if the price of 2 items are same, then item with weight less is given priority
-     * @return List of sorted Items
+     * This method sorts the items based on price (in decreasing order) and then on weight (in increasing order).
+     * If the price of two items is the same, the item with a lower weight is given priority.
+     *
+     * @return a priority queue of sorted items
      */
     private Queue<Item> sortItemsOnPriceAndWeight() {
         return new PriorityQueue<>((p1, p2) -> {

@@ -18,14 +18,18 @@ public class Packer {
    * Calculates and return all items that can be selected not exceeding the given capacity.
    * @param filePath absolute path to file in UTF-8 format
    * @return solution as String
-   * @throws APIException
-   * @throws FileNotFoundException
+   * @throws APIException  if there is an API-related exception
+   * @throws FileNotFoundException if the file is not found
    */
   public static String pack(String filePath) throws APIException, FileNotFoundException {
-
-    List<Package> packages = InputParser.parseFile(
-            FileUtil.readFile(filePath));
-
-    return WeightCalculationService.selectItemsWithWeightConstraint(packages);
+    try {
+      List<Package> packages = InputParser.parseFile(
+              FileUtil.readFile(filePath));
+      return WeightCalculationService.selectItemsWithWeightConstraint(packages);
+    } catch (FileNotFoundException fe) {
+      throw new FileNotFoundException(fe.getMessage());
+    } catch (APIException apiException) {
+      throw new APIException(apiException.getMessage());
+    }
   }
 }

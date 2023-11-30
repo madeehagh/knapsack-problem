@@ -1,11 +1,12 @@
 package com.mobiquity.util;
 
 
+import com.mobiquity.constants.MessageConstants;
 import com.mobiquity.entity.Item;
 import com.mobiquity.entity.Package;
 import com.mobiquity.exception.APIException;
 import com.mobiquity.exception.FileParserException;
-import com.mobiquity.helper.PatternConstants;
+import com.mobiquity.constants.PatternConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +26,8 @@ public class InputParser {
      */
     public static List<Package> parseFile(List<String> fileItems) throws APIException {
         if (null == fileItems || fileItems.isEmpty()) {
-            logger.error("No data present in file");
+            String errorMessage = "No data present in file";
+            logger.error(errorMessage);
             throw new APIException("No data present in file");
         }
         List<Package> packagesList = new ArrayList<>();
@@ -67,7 +69,7 @@ public class InputParser {
         String[] splitItems = item.split(PatternConstants.ITEMS_SPLIT_DELIMITER);
 
         if (splitItems.length != PatternConstants.MAX_ENTITIES_IN_ITEMS) {
-            throw new APIException("Invalid or missing entities in package");
+            throw new APIException(MessageConstants.INVALID_ITEM_ENTITIES_IN_PACKAGE);
         }
 
         try {
@@ -76,7 +78,7 @@ public class InputParser {
                     Double.parseDouble(splitItems[1]),
                     Double.parseDouble(splitItems[2].substring(1)));
         } catch (NumberFormatException e) {
-            logger.error("Invalid input", e);
+            logger.error(MessageConstants.INVALID_ITEM_ENTITIES_IN_PACKAGE, e);
             throw new NumberFormatException(e.getMessage());
         }
     }

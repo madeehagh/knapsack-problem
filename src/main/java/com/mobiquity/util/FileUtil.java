@@ -1,5 +1,6 @@
 package com.mobiquity.util;
 
+import com.mobiquity.constants.MessageConstants;
 import com.mobiquity.exception.FileParserException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,13 +20,19 @@ public class FileUtil {
      */
     public static List<String> readFile(String filePath) throws FileNotFoundException {
         if (null == filePath || filePath.isBlank()) {
-            logger.error("File path is either empty or null");
-            throw new FileNotFoundException("File path is empty or null");
+            String errorMessage = MessageConstants.INVALID_FILE_PATH;
+            logger.error(errorMessage);
+            throw new FileNotFoundException(errorMessage);
         }
 
         List<String> results = new ArrayList<>();
         try {
         File file = new File(filePath);
+
+        if (! file.exists() || file.isDirectory()){
+            throw new FileNotFoundException(MessageConstants.FILE_NOT_FOUND);
+        }
+
         BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(file));
             String line;
             while((line = bufferedReader.readLine()) != null) {
@@ -33,11 +40,7 @@ public class FileUtil {
             }
         } catch (FileNotFoundException fe) {
             logger.error(fe.getMessage());
-            throw new FileNotFoundException(fe.getMessage());
-        }
-        catch (FileParserException | UnsupportedEncodingException fpe) {
-            logger.error(fpe.getMessage() );
-            throw new FileParserException(fpe.getMessage());
+            throw fe;
         } catch (IOException e) {
             logger.error(e.getMessage() );
             throw new RuntimeException(e);

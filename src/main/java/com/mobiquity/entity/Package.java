@@ -21,7 +21,7 @@ public class Package {
 
     public List<Item> getPackageItems() {
         if (null == packageItems || packageItems.isEmpty())
-            return packageItems;
+            return List.of();
 
         return packageItems.stream()
                 .map(packageItem -> new Item(packageItem.getIndex(),

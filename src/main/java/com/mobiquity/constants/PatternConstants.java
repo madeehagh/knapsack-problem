@@ -1,4 +1,4 @@
-package com.mobiquity.helper;
+package com.mobiquity.constants;
 
 import lombok.NoArgsConstructor;
 

@@ -1,6 +1,6 @@
 package com.mobiquity.entity;
 
-import com.mobiquity.helper.PatternConstants;
+import com.mobiquity.constants.PatternConstants;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class WeightCalculationServiceTest {
+class WeightCalculationServiceTest {
 
     @Test
     @DisplayName("Should return expected result when valid input is given")
-    public void calculateWeightForGivenPackages() throws APIException {
+    void calculateWeightForGivenPackages() throws APIException {
         String result = WeightCalculationService
                 .selectItemsWithWeightConstraint(
                         TestInput.packagesForWeightCalculation());
@@ -20,7 +20,7 @@ public class WeightCalculationServiceTest {
 
     @Test
     @DisplayName("Should throw APIException when input is null")
-    public void calculateWtForNullGivenPackages() {
+    void calculateWtForNullGivenPackages() {
         Assertions.assertThrows(APIException.class,
                 () -> WeightCalculationService.selectItemsWithWeightConstraint(null));
     }

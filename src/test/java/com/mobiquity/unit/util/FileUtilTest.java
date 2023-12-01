@@ -15,14 +15,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class FileUtilTest {
+class FileUtilTest {
 
     @TempDir
     Path tempDir;
 
     @Test
     @DisplayName("should return expected List, if valid path is given")
-    public void testReadFileWhenValidFilePathGiven() throws Exception {
+    void testReadFileWhenValidFilePathGiven() throws Exception {
         // Arrange
         File tempFile = tempDir.resolve("tempFile.txt").toFile();
         try (PrintWriter out = new PrintWriter(tempFile)) {
@@ -43,7 +43,7 @@ public class FileUtilTest {
 
     @Test
     @DisplayName("should throw exception if file is not found")
-    public void testReadFileWhenNullFilePathGiven() {
+    void testReadFileWhenNullFilePathGiven() {
         // Act and Assert
         FileNotFoundException exception = assertThrows(FileNotFoundException.class, () -> FileUtil.readFile(null));
         assertEquals(MessageConstants.INVALID_FILE_PATH, exception.getMessage());
@@ -51,7 +51,7 @@ public class FileUtilTest {
 
     @Test
     @DisplayName("should throw exception if file path is invalid")
-    public void testThrowExceptionForInvalidPath() {
+    void testThrowExceptionForInvalidPath() {
         // Act and Assert
         FileNotFoundException exception = assertThrows(FileNotFoundException.class, () -> FileUtil.readFile("nonExistentFile.txt"));
         assertEquals(MessageConstants.FILE_NOT_FOUND, exception.getMessage());
@@ -59,7 +59,7 @@ public class FileUtilTest {
 
     @Test
     @DisplayName("should return empty list, if file doesn't contain any item")
-    public void testReadEmptyFile() throws Exception {
+    void testReadEmptyFile() throws Exception {
         // Arrange
         File tempFile = tempDir.resolve("emptyFile.txt").toFile();
         try (PrintWriter out = new PrintWriter(tempFile)) {

@@ -13,10 +13,10 @@ import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PackerConcurrencyTest {
+class PackerConcurrencyTest {
 
     @Test
-    public void testConcurrentPacking() throws InterruptedException, ExecutionException {
+    void testConcurrentPacking() throws InterruptedException, ExecutionException {
         int numThreads = 4;
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
         List<Callable<String>> tasks = new ArrayList<>();

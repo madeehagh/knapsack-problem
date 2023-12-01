@@ -1,4 +1,4 @@
-package input;
+package com.mobiquity.input;
 
 public final class TestConstants {
     public static String INPUT_FILE_PATH = "src/test/resources/example_input";

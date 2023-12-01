@@ -1,8 +1,9 @@
-package input;
+package com.mobiquity.input;
 
 import com.mobiquity.entity.Item;
 import com.mobiquity.entity.Package;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,50 +25,48 @@ public final class TestInput {
     }
 
     public static List<String> givenPackages() {
-        return Arrays.asList("81 : (1,53.38,€45)");
+        return List.of("81 : (1,53.38,€45)");
     }
 
-    public static List<Package> packages() {
-        System.out.println(Arrays.asList(new Package(81,
-                Arrays.asList(new Item(1, 53.38, 45)))).toString());
-        return Arrays.asList(new Package(81,
-                Arrays.asList(new Item(1, 53.38, 45))));
-    }
-
-    public static List<Package> packagesForWightCal() {
-        return Arrays.asList(new Package(81,
+    public static List<Package> packagesForWeightCalculation() {
+        return List.of(new Package(new BigDecimal("81"),
                 Arrays.asList(
-                        new Item(1, 53.38, 45),
-                        new Item(2, 88.62, 98),
-                        new Item(3, 78.48, 3),
-                        new Item(4, 72.30, 76),
-                        new Item(5, 30.18, 9),
-                        new Item(6, 46.34, 48))));
+                        new Item(1, new BigDecimal("53.38"), new BigDecimal("45")),
+                        new Item(2, new BigDecimal("88.62"), new BigDecimal("98")),
+                        new Item(3, new BigDecimal("78.48"), new BigDecimal("3")),
+                        new Item(4, new BigDecimal("72.30"), new BigDecimal("76")),
+                        new Item(5, new BigDecimal("30.18"), new BigDecimal("9")),
+                        new Item(6, new BigDecimal("46.34"), new BigDecimal("48")))));
     }
 
-    public static List<Package> pkgWithWtItemsMoreThanCapacity() {
-        return Arrays.asList(new Package(8,
-                Arrays.asList(
-                        new Item(1, 15.3, 34))));
+    public static List<Package> pkgWithWeightItemsMoreThanCapacity() {
+        return List.of(new Package(new BigDecimal("8"),
+                List.of(
+                        new Item(1, new BigDecimal("15.3"), new BigDecimal("34")))));
     }
 
     public static List<String> givenPackageWithInvalidWeightDelimiter() {
-        return Arrays.asList("81  (1,53.38,€45)");
+        return List.of("81  (1,53.38,€45)");
     }
 
     public static List<String> givenPackageWithInvalidIndex() {
-        return Arrays.asList("81 : (a,53.38,€45)");
+        return List.of("81 : (a,53.38,€45)");
     }
 
     public static List<String> givenPackageWithInvalidWeight() {
-        return Arrays.asList("81 : (1,ww,€45)");
+        return List.of("81 : (1,ww,€45)");
     }
 
     public static List<String> givenPackageWithInvalidPrice() {
-        return Arrays.asList("81 : (1,53.34,abc)");
+        return List.of("81 : (1,53.34,abc)");
     }
 
     public static List<String> givenPackageWithInvalidItemAttr() {
-        return Arrays.asList("81 : (1,53.34,€45,121)");
+        return List.of("81 : (1,53.34,€45,121)");
+    }
+
+    public static List<Package> givenPackageWithExceedingWeight() {
+        return List.of(new Package(new BigDecimal("8"),
+                List.of(new Item(1, new BigDecimal("53.38"), new BigDecimal("45")))));
     }
 }

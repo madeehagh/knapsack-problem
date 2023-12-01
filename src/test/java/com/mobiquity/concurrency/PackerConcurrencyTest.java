@@ -2,6 +2,7 @@ package com.mobiquity.concurrency;
 
 import com.mobiquity.exception.APIException;
 import com.mobiquity.exception.ProcessingException;
+import com.mobiquity.input.TestConstants;
 import com.mobiquity.packer.Packer;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ public class PackerConcurrencyTest {
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
         List<Callable<String>> tasks = new ArrayList<>();
 
-        String filePath = input.TestConstants.INPUT_FILE_PATH;
+        String filePath = TestConstants.INPUT_FILE_PATH;
 
         // Create concurrent tasks to invoke the pack method
         for (int i = 0; i < numThreads; i++) {

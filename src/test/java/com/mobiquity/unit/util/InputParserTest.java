@@ -2,8 +2,8 @@ package com.mobiquity.unit.util;
 
 import com.mobiquity.entity.Package;
 import com.mobiquity.exception.APIException;
+import com.mobiquity.input.TestInput;
 import com.mobiquity.util.InputParser;
-import input.TestInput;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

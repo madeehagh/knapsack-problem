@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class Package {
     private final String packageId = UUID.randomUUID().toString();
 
     @Getter
-    private final double weightLimit;
+    private final BigDecimal weightLimit;
     private final List<Item> packageItems;
 
     public List<Item> getPackageItems() {

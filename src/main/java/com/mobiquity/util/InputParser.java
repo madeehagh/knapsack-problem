@@ -10,6 +10,7 @@ import com.mobiquity.constants.PatternConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,8 @@ public class InputParser {
     private static Package getPackageItem(String items) throws APIException {
         try {
             String[] unprocessedItems = items.split(PatternConstants.WEIGHT_SPLIT_DELIMITER);
-            double weight = Double.parseDouble(unprocessedItems[0]);
+            BigDecimal weight = BigDecimal.valueOf(
+                    Double.parseDouble(unprocessedItems[0]));
             String[] readyToParseItems = unprocessedItems[1].split(PatternConstants.ITEMS_SPLIT_PATTERN);
 
             List<Item> itemList = new ArrayList<>();
@@ -76,8 +78,8 @@ public class InputParser {
         try {
             return new Item(
                     Integer.parseInt(splitItems[0]),
-                    Double.parseDouble(splitItems[1]),
-                    Double.parseDouble(splitItems[2].substring(1)));
+                    BigDecimal.valueOf(Double.parseDouble(splitItems[1])),
+                    BigDecimal.valueOf(Double.parseDouble(splitItems[2].substring(1))));
         } catch (NumberFormatException e) {
             logger.error(MessageConstants.INVALID_ITEM_ENTITIES_IN_PACKAGE, e);
             throw new NumberFormatException(e.getMessage());

@@ -7,6 +7,7 @@ import com.mobiquity.constants.PatternConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -16,9 +17,8 @@ public class KnapSackQueueImpl implements KnapSack {
 
     private static final Logger logger = LogManager.getLogger(KnapSackQueueImpl.class);
     private final Map<Package, Queue<Item>> packageMaxHeap;
-    private  final List<ItemsSelected> itemsSelected;
+    private final List<ItemsSelected> itemsSelected;
     private final Lock lock;
-
 
     public KnapSackQueueImpl() {
         itemsSelected = new LinkedList<>();
@@ -27,8 +27,9 @@ public class KnapSackQueueImpl implements KnapSack {
     }
 
     /**
-     *  This method formats output, which is list of selected items in a string format.
-     *  index of item separated by ',', if not item is selected in a package then '-'
+     * This method formats output, which is a list of selected items in a string format.
+     * The index of each item is separated by ',', and if no item is selected in a package, it is represented by '-'
+     *
      * @return output as String
      */
     @Override
@@ -37,9 +38,9 @@ public class KnapSackQueueImpl implements KnapSack {
     }
 
     /**
-     * This method takes all packages and sort items based on price and weight
-     * @param packages packages a list of packages
-     * @return
+     * This method takes all packages and sorts the items based on price and weight.
+     *
+     * @param packages a list of packages
      */
     @Override
     public void init(List<Package> packages) {
@@ -50,9 +51,7 @@ public class KnapSackQueueImpl implements KnapSack {
     }
 
     /**
-     * This method collects the selected items from each package
-     * based on the weight constraint.
-     * @return list of items satisfying the constraint
+     * This method collects the selected items from each package based on the weight constraint.
      */
     @Override
     public void collectSelectedItems() {
@@ -67,24 +66,24 @@ public class KnapSackQueueImpl implements KnapSack {
     }
 
     private List<Item> getItems(Package key) {
-        double weightLimit = key.getWeightLimit();
+        BigDecimal weightLimit = key.getWeightLimit();
         List<Item> items = new ArrayList<>();
         Queue<Item> itemQueue = this.packageMaxHeap.get(key);
 
-        while (!itemQueue.isEmpty() && weightLimit > 0) {
+        while (!itemQueue.isEmpty() && weightLimit.compareTo(BigDecimal.ZERO) > 0) {
             Item item = itemQueue.poll();
-            if (weightLimit >= item.getWeight()) {
+            if (weightLimit.compareTo(item.getWeight()) >= 0) {
                 items.add(item);
-                weightLimit -= item.getWeight();
+                weightLimit = weightLimit.subtract(item.getWeight());
             }
         }
         return items;
     }
 
     private String selectedItemsAsString() {
-     return this.itemsSelected.stream()
-                    .map(ItemsSelected::toString)
-                    .collect(Collectors.joining(PatternConstants.END_OF_LINE));
+        return this.itemsSelected.stream()
+                .map(ItemsSelected::toString)
+                .collect(Collectors.joining(PatternConstants.END_OF_LINE));
     }
 
     /**

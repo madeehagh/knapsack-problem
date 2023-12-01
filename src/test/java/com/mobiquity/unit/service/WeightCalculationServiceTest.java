@@ -1,8 +1,8 @@
 package com.mobiquity.unit.service;
 
 import com.mobiquity.exception.APIException;
+import com.mobiquity.input.TestInput;
 import com.mobiquity.service.WeightCalculationService;
-import input.TestInput;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
     @Test
     @DisplayName("Calculate weight method should be called exactly once")
      void testCalculateWeight() throws APIException {
-        String result = WeightCalculationService.selectItemsWithWeightConstraint(TestInput.packagesForWightCal());
+        String result = WeightCalculationService
+                .selectItemsWithWeightConstraint(TestInput.packagesForWeightCalculation());
         Assertions.assertFalse(result.isEmpty());
     }
 

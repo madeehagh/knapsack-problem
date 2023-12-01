@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static input.TestConstants.*;
+import static com.mobiquity.input.TestConstants.*;
 
 class FileUtilTest {
 

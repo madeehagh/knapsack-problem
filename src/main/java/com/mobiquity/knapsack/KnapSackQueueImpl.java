@@ -45,8 +45,8 @@ public class KnapSackQueueImpl implements KnapSack {
     @Override
     public void init(List<Package> packages) {
         packages.forEach(pack -> {
-            packageMaxHeap.put(pack, sortItemsOnPriceAndWeight());
-            packageMaxHeap.get(pack).addAll(pack.getPackageItems());
+            this.packageMaxHeap.put(pack, sortItemsOnPriceAndWeight());
+            this.packageMaxHeap.get(pack).addAll(pack.getPackageItems());
         });
     }
 
@@ -58,7 +58,7 @@ public class KnapSackQueueImpl implements KnapSack {
         packageMaxHeap.forEach((pack, itemQueue) -> {
             lock.lock();
             try {
-                itemsSelected.add(new ItemsSelected(pack.getPackageId(), getItems(pack)));
+                this.itemsSelected.add(new ItemsSelected(pack.getPackageId(), getItems(pack)));
             } finally {
                 lock.unlock();
             }
